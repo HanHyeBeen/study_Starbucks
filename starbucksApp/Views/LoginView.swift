@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     var body: some View {
+    
         VStack (alignment: .leading) {
             Spacer()
             TitleView
@@ -71,20 +72,25 @@ private var InputIdPwView: some View {
         Button(action: {
             print("로그인버튼")
         }, label: {
-            HStack {
-                Spacer()
-                
-                Text("로그인하기")
-                    .font(.mainTextMedium16)
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
-                    .padding(.vertical, 13)
-                
-                Spacer()
-            }
-            .foregroundStyle(.clear)
-            .background(.green01)
-            .cornerRadius(20)
+            //방법1
+//            Text("로그인하기")
+//                .font(.mainTextMedium16)
+//                .foregroundStyle(.white)
+//                .padding(.vertical, 13)
+//                .frame(maxWidth: .infinity)
+//                .background(
+//                    RoundedRectangle(cornerRadius: 20)
+//                        .fill(Color.green01)
+//                )
+            //방법2
+            RoundedRectangle(cornerRadius: 20)
+                .frame(height: 46)
+                .foregroundStyle(.green01)
+                .overlay(
+                    Text("로그인하기")
+                        .font(.mainTextMedium16)
+                        .foregroundStyle(.white)
+                )
         })
     }
 }
@@ -94,14 +100,18 @@ private var LoginBtnView: some View {
         Spacer()
         
         VStack (alignment: .center) {
-            Text("이메일로 회원가입하기")
-                .font(.mainTextRegular12)
-                .foregroundStyle(.gray04)
-                .underline()
+            Button(action: {
+                
+            }, label: {
+                Text("이메일로 회원가입하기")
+                    .font(.mainTextRegular12)
+                    .foregroundStyle(.gray04)
+                    .underline()
+            })
             
             Spacer().frame(height: 19)
             
-            Button (action: {
+            Button(action: {
                 print("LoginKakao")
             }, label: {
                 Image("LoginKakaoBtn")
@@ -109,7 +119,7 @@ private var LoginBtnView: some View {
             
             Spacer().frame(height: 19)
             
-            Button (action: {
+            Button(action: {
                 print("LoginApple")
             }, label: {
                 Image("LoginAppleBtn")
