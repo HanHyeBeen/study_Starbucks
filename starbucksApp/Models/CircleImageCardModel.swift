@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct CircleImageCardModel: Identifiable {
+    let id = UUID()
+    let imgName: String
+    let name: String
+}

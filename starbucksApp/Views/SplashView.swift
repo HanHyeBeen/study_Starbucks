@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     var body: some View {
-        ZStack (alignment: .center) {
+        ZStack(alignment: .center) {
             Rectangle()
                 .ignoresSafeArea()
                 .foregroundStyle(.green01)

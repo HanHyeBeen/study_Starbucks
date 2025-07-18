@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct NoticeCardModel: Identifiable {
+    let id = UUID()
+    let imgName: String
+    let title: String
+    let explain: String
+}

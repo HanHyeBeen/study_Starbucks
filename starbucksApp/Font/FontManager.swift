@@ -20,17 +20,17 @@ extension Font {
         var value: String {
             switch self {
             case .extraBold:
-                return "Pretendard-ExtraBold"
+                return "PretendardVariable-ExtraBold"
             case .bold:
-                return "Pretendard-bold"
+                return "PretendardVariable-bold"
             case .semibold:
-                return "Pretendard-SemiBold"
+                return "PretendardVariable-SemiBold"
             case .medium:
-                return "Pretendard-Medium"
+                return "PretendardVariable-Medium"
             case .regular:
-                return "Pretendard-Regular"
+                return "PretendardVariable-Regular"
             case .light:
-                return "Pretendard-Light"
+                return "PretendardVariable-Light"
             }
         }
     }
@@ -125,5 +125,9 @@ extension Font {
     
     static var mainTextLight14: Font {
         return .pretend(type: .light, size: 14)
+    }
+    
+    static var mainTextLight24: Font {
+        return .pretend(type: .light, size: 24)
     }
 }

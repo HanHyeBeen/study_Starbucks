@@ -8,125 +8,123 @@
 import SwiftUI
 
 struct LoginView: View {
+    @State private var router = NavigationRouter()
+    @StateObject private var viewModel = LoginViewModel()
+    @FocusState private var isFocused: Bool
+    
+    // MARK: - body
     var body: some View {
-    
-        VStack (alignment: .leading) {
-            Spacer()
-            TitleView
-            Spacer()
-            InputIdPwView
-            Spacer()
-            LoginBtnView
-            Spacer()
-        }
-        .padding(.horizontal, 19)
-    }
-    
-}
-
-private var TitleView: some View {
-    VStack (alignment: .leading) {
-        Image("Logo")
-            .resizable()
-            .frame(width: 97, height: 95)
-        
-        Spacer().frame(height: 28)
-        
-        Group {
-            Text("안녕하세요.")
-            Text("스타벅스입니다.")
-        }
-        .multilineTextAlignment(.leading)
-        .font(.mainTextExtraBold)
-        .foregroundStyle(.black)
-        
-        Spacer().frame(height: 19)
-        
-        Text("회원 서비스 이용을 위해 로그인해주세요")
-            .multilineTextAlignment(.leading)
-            .font(.mainTextMedium16)
-            .foregroundStyle(.gray01)
-    }
-}
-
-private var InputIdPwView: some View {
-    VStack (alignment: .leading) {
-        Text("아이디")
-            .font(.mainTextRegular13)
-            .foregroundStyle(.black01)
-        
-        Divider()
-            .foregroundStyle(.gray00)
-        
-        Spacer().frame(height: 47)
-        
-        Text("비밀번호")
-            .font(.mainTextRegular13)
-            .foregroundStyle(.black01)
-        
-        Divider()
-            .foregroundStyle(.gray00)
-        
-        Spacer().frame(height: 47)
-        
-        Button(action: {
-            print("로그인버튼")
-        }, label: {
-            //방법1
-//            Text("로그인하기")
-//                .font(.mainTextMedium16)
-//                .foregroundStyle(.white)
-//                .padding(.vertical, 13)
-//                .frame(maxWidth: .infinity)
-//                .background(
-//                    RoundedRectangle(cornerRadius: 20)
-//                        .fill(Color.green01)
-//                )
-            //방법2
-            RoundedRectangle(cornerRadius: 20)
-                .frame(height: 46)
-                .foregroundStyle(.green01)
-                .overlay(
-                    Text("로그인하기")
-                        .font(.mainTextMedium16)
-                        .foregroundStyle(.white)
-                )
-        })
-    }
-}
-
-private var LoginBtnView: some View {
-    HStack {
-        Spacer()
-        
-        VStack (alignment: .center) {
-            Button(action: {
+        NavigationStack(path: $router.path) {
+            VStack(alignment: .leading) {
+                Spacer()
                 
-            }, label: {
-                Text("이메일로 회원가입하기")
-                    .font(.mainTextRegular12)
-                    .foregroundStyle(.gray04)
-                    .underline()
-            })
+                TitleView
+                
+                Spacer()
+                
+                InputIdPwView
+                
+                Spacer()
+                
+                LoginBtnView
+                
+                Spacer()
+            }
+            .safeAreaPadding(.horizontal, 19)
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .signup:
+                    SignupView(router: router)
+                }
+            }
+        }
+    }
+    
+    // MARK: - title
+    private var TitleView: some View {
+        VStack(alignment: .leading) {
+            Image("Logo")
+                .resizable()
+                .frame(width: 97, height: 95)
+                .padding(.bottom, 28)
             
-            Spacer().frame(height: 19)
+            Text("안녕하세요.\n스타벅스입니다.")
+            .multilineTextAlignment(.leading)
+            .font(.mainTextExtraBold)
+            .foregroundStyle(.black)
+            .padding(.bottom, 19)
+            
+            Text("회원 서비스 이용을 위해 로그인해주세요")
+                .multilineTextAlignment(.leading)
+                .font(.mainTextMedium16)
+                .foregroundStyle(.gray01)
+        }
+    }
+    
+    // MARK: - input
+    private var InputIdPwView: some View {
+        VStack(alignment: .leading, spacing: 47) {
+            VStack(alignment: .leading) {
+                TextField("아이디", text: $viewModel.loginData.id)
+                    .focused($isFocused)
+                    .font(.mainTextRegular13)
+                    .foregroundStyle(.black01)
+                
+                Divider()
+                    .frame(height: 0.7)
+                    .foregroundColor(isFocused ? .green00 : .gray00)
+                    .animation(.easeInOut, value: isFocused)
+            }
+            
+            VStack(alignment: .leading) {
+                TextField("비밀번호", text: $viewModel.loginData.pwd)
+                    .focused($isFocused)
+                    .font(.mainTextRegular13)
+                    .foregroundStyle(.black01)
+                
+                Divider()
+                    .frame(height: 0.7)
+                    .foregroundColor(isFocused ? .green00 : .gray00)
+                    .animation(.easeInOut, value: isFocused)
+            }
             
             Button(action: {
-                print("LoginKakao")
+                print("로그인버튼")
             }, label: {
-                Image("LoginKakaoBtn")
-            })
-            
-            Spacer().frame(height: 19)
-            
-            Button(action: {
-                print("LoginApple")
-            }, label: {
-                Image("LoginAppleBtn")
+                MainBtn(btnText: "로그인하기")
             })
         }
-        
-        Spacer()
+    }
+
+    private var LoginBtnView: some View {
+        HStack {
+            Spacer()
+            
+            VStack (alignment: .center, spacing: 19) {
+                Button(action: {
+                    router.push(.signup)
+                }, label: {
+                    Text("이메일로 회원가입하기")
+                        .font(.mainTextRegular12)
+                        .foregroundStyle(.gray04)
+                        .underline()
+                })
+                
+                Button(action: {
+                    print("LoginKakao")
+                }, label: {
+                    Image("LoginKakaoBtn")
+                })
+                
+                Button(action: {
+                    print("LoginApple")
+                }, label: {
+                    Image("LoginAppleBtn")
+                })
+            }
+            
+            Spacer()
+        }
     }
 }
 
